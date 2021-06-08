@@ -17,16 +17,12 @@ def set_default(key, value):
     DEFAULTS[key] = value
 
 
-from .corenlp_tokenizer import CoreNLPTokenizer
+# from .corenlp_tokenizer import CoreNLPTokenizer
 from .regexp_tokenizer import RegexpTokenizer
 from .simple_tokenizer import SimpleTokenizer
 
-# Spacy is optional
-try:
-    from .spacy_tokenizer import SpacyTokenizer
-except ImportError:
-    pass
-
+# Spacy is now default
+from .spacy_tokenizer import SpacyTokenizer
 
 def get_class(name):
     if name == 'spacy':
