@@ -24,6 +24,8 @@ from .simple_tokenizer import SimpleTokenizer
 # Spacy is now default
 from .spacy_tokenizer import SpacyTokenizer
 
+from .mecab_tokenizer import MecabTokenizer
+
 def get_class(name):
     if name == 'spacy':
         return SpacyTokenizer
@@ -33,6 +35,8 @@ def get_class(name):
         return RegexpTokenizer
     if name == 'simple':
         return SimpleTokenizer
+    if name == 'mecab':
+        return MecabTokenizer
 
     raise RuntimeError('Invalid tokenizer: %s' % name)
 
