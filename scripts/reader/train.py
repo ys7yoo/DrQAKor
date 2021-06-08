@@ -29,7 +29,7 @@ logger = logging.getLogger()
 
 
 # Defaults
-DATA_DIR = os.path.join(DRQA_DATA, 'datasets')
+DATA_DIR = os.path.join(DRQA_DATA, 'datasets', 'SQuAD-v1.1')
 MODEL_DIR = '/tmp/drqa-models/'
 EMBED_DIR = os.path.join(DRQA_DATA, 'embeddings')
 
@@ -72,12 +72,12 @@ def add_train_args(parser):
     files.add_argument('--data-dir', type=str, default=DATA_DIR,
                        help='Directory of training/validation data')
     files.add_argument('--train-file', type=str,
-                       default='SQuAD-v1.1-train-processed-corenlp.txt',
+                       default='train-v1.1-processed-spacy.txt',
                        help='Preprocessed train file')
     files.add_argument('--dev-file', type=str,
-                       default='SQuAD-v1.1-dev-processed-corenlp.txt',
+                       default='dev-v1.1-processed-spacy.txt',
                        help='Preprocessed dev file')
-    files.add_argument('--dev-json', type=str, default='SQuAD-v1.1-dev.json',
+    files.add_argument('--dev-json', type=str, default='dev-v1.1.json',
                        help=('Unprocessed dev file to run validation '
                              'while training on'))
     files.add_argument('--embed-dir', type=str, default=EMBED_DIR,
