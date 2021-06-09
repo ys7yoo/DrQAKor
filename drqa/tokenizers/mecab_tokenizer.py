@@ -23,20 +23,34 @@ class MecabTokenizer(Tokenizer):
                            (type(self).__name__, kwargs.get('annotators')))
         self.annotators = set()
 
-    def tokenize(self, text):
-        data = []
-        matches = [m for m in self._regexp.finditer(text)]
-        for i in range(len(matches)):
-            # Get text
-            token = matches[i].group()
+        from konlpy.tag import Mecab
+        self.word_tokenizer = Mecab()
 
-            # Get whitespace
-            span = matches[i].span()
-            start_ws = span[0]
-            if i + 1 < len(matches):
-                end_ws = matches[i + 1].span()[0]
-            else:
-                end_ws = span[1]
+        #
+
+    def tokenize(self, text):
+        def is_whitespace(c):
+            if c == " " or c == "\t" or c == "\r" or c == "\n" or ord(c) == 0x202F:
+                return True
+            return False
+
+        tokens = self.word_tokenizer.morphs(text)
+
+        data = []
+        start_ws = 0
+        for i in range(len(tokens)):
+            # Get text
+            token = tokens[i]
+
+            end_ws = start_ws + len(token)
+
+            span = (start_ws, end_ws)
+
+            # # Add whitespace
+            if i + 1 < len(tokens):
+                # check next
+                if is_whitespace(text[end_ws]):
+                    end_ws = end_ws + 1
 
             # Format data
             data.append((
@@ -44,4 +58,8 @@ class MecabTokenizer(Tokenizer):
                 text[start_ws: end_ws],
                 span,
             ))
+
+            # move starting point
+            start_ws = end_ws
+
         return Tokens(data, self.annotators)
