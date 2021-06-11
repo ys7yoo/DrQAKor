@@ -82,9 +82,12 @@ def load_answers(filename):
 def index_embedding_words(embedding_file):
     """Put all the words in embedding_file into a set."""
     words = set()
-    with open(embedding_file) as f:
+    with open(embedding_file, encoding='utf-8') as f:
         for line in f:
-            w = Dictionary.normalize(line.rstrip().split(' ')[0])
+            vs = line.rstrip().split(' ')
+            if len(vs) < 3: # skip the header
+                continue
+            w = Dictionary.normalize(vs[0])
             words.add(w)
     return words
 
